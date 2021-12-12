@@ -27,14 +27,14 @@ def create_factory(cli):
     others = "這個工廠實在太臭啦，趕緊檢舉吧"
     nickname = "路過的家庭主婦"
     contact = "07-7533967"
-    factory_type = "2-3"
+    ohshown_event_type = "2-3"
 
     im1 = Image.objects.create(image_path="https://i.imgur.com/RxArJUc.png")
     im2 = Image.objects.create(image_path="https://imgur.dcard.tw/BB2L2LT.jpg")
 
     request_body = {
         "name": "a new factory",
-        "type": factory_type,
+        "type": ohshown_event_type,
         "images": [str(im1.id), str(im2.id)],
         "others": others,
         "lat": lat,

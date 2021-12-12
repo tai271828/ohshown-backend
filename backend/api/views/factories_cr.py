@@ -104,7 +104,7 @@ def _handle_create_factory(request):
         "name": post_body["name"],
         "lat": post_body["lat"],
         "lng": post_body["lng"],
-        "factory_type": post_body.get("type"),
+        "ohshown_event_type": post_body.get("type"),
         "status_time": datetime.datetime.now(),
         "display_number": num["display_number__max"] + 1,
     }
@@ -129,7 +129,7 @@ def _handle_create_factory(request):
     serializer = FactorySerializer(new_factory)
     LOGGER.info(
         f"{user_ip}: <Create new factory> at {(post_body['lng'], post_body['lat'])} "
-        f"id:{new_factory.id} {new_factory_field['name']} {new_factory_field['factory_type']}",
+        f"id:{new_factory.id} {new_factory_field['name']} {new_factory_field['ohshown_event_type']}",
     )
     async_task("api.tasks.update_landcode", new_factory.id)
     return JsonResponse(serializer.data, safe=False)

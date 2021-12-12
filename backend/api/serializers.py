@@ -12,7 +12,7 @@ from django.utils import timezone
 from .models import Factory, Image, ReportRecord, FollowUp
 
 
-VALID_FACTORY_TYPES = [t[0] for t in Factory.factory_type_list]
+VALID_OHSHOWN_EVENT_TYPES = [t[0] for t in Factory.ohshown_event_type_list]
 
 
 def _get_latest_time_or_none(objs):
@@ -34,7 +34,7 @@ class ImageSerializer(ModelSerializer):
 class FactorySerializer(ModelSerializer):
 
     images = ImageSerializer(many=True, read_only=True)
-    type = CharField(source="factory_type", required=False, allow_null=True)
+    type = CharField(source="ohshown_event_type", required=False, allow_null=True)
     reported_at = SerializerMethodField()
     data_complete = SerializerMethodField()
     status = SerializerMethodField()  # should be DEPRECATED
@@ -54,7 +54,7 @@ class FactorySerializer(ModelSerializer):
             "sectname",
             "sectcode",
             "source",
-            "factory_type",
+            "ohshown_event_type",
             "type",
             "cet_report_status",
             "before_release",
@@ -85,7 +85,7 @@ class FactorySerializer(ModelSerializer):
             return False  # not reported or outdated
 
         if obj.before_release:
-            return obj.factory_type is not None
+            return obj.ohshown_event_type is not None
         else:
             return True
 
@@ -121,8 +121,8 @@ class FactorySerializer(ModelSerializer):
             )
 
     def validate_type(self, value):
-        if (value is not None) and (value not in VALID_FACTORY_TYPES):
-            valid_type_msg = ", ".join(VALID_FACTORY_TYPES)
+        if (value is not None) and (value not in VALID_OHSHOWN_EVENT_TYPES):
+            valid_type_msg = ", ".join(VALID_OHSHOWN_EVENT_TYPES)
             raise ValidationError(
                 f'Factory Type "{value}" is not one of the permitted values: {valid_type_msg}',
             )

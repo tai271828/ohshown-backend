@@ -12,7 +12,7 @@ class Factory(SoftDeleteMixin):
     """Factories that are potential to be illegal."""
 
     # List of fact_type & status
-    factory_type_list = [
+    ohshown_event_type_list = [
         ("2-1", "沖床、銑床、車床、鏜孔"),
         ("2-2", "焊接、鑄造、熱處理"),
         ("2-3", "金屬表面處理、噴漆"),
@@ -83,9 +83,9 @@ class Factory(SoftDeleteMixin):
     sectname = models.CharField(max_length=50, blank=True, null=True)
 
     name = models.CharField(max_length=50, blank=True, null=True)
-    factory_type = models.CharField(
+    ohshown_event_type = models.CharField(
         max_length=3,
-        choices=factory_type_list,
+        choices=ohshown_event_type_list,
         blank=True,
         null=True,
     )

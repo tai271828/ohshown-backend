@@ -23,7 +23,7 @@ request.user = MockSuperUser()
 TEST_FACTORY_DATA = [
     {
         "name": "Test Factory 1",
-        "factory_type": "2-3",
+        "ohshown_event_type": "2-3",
         "images": [
             "https://i.imgur.com/CSdR281.png",
             "https://i.imgur.com/aT5082y.png",
@@ -37,7 +37,7 @@ TEST_FACTORY_DATA = [
     },
     {
         "name": "Test Factory 2",
-        "factory_type": "2-1",
+        "ohshown_event_type": "2-1",
         "images": [
             "https://i.imgur.com/3XPyVuF.png",
             # python-docx can't parse this image correctly
