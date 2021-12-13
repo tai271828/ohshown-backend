@@ -38,7 +38,7 @@ class TestFactorySerializers:
             lat=23,
             lng=121,
             landcode="000120324",
-            factory_type="2-1",
+            ohshown_event_type="2-1",
             cet_report_status="A",
             status_time=datetime.now(),
             display_number=666,
@@ -49,7 +49,7 @@ class TestFactorySerializers:
         # should have null reported_at
         serialized_factory = FactorySerializer(factory)
         assert serialized_factory.data == SuperSet({
-            'type': factory.factory_type,
+            'type': factory.ohshown_event_type,
             'display_number': factory.display_number,
             'reported_at': None,
         })
@@ -130,7 +130,7 @@ class TestFactorySerializers:
             lat=23,
             lng=121,
             landcode="000120324",
-            factory_type=None,
+            ohshown_event_type=None,
             before_release=True,
             cet_report_status="A",
             status_time=datetime.now(),
@@ -159,7 +159,7 @@ class TestFactorySerializers:
             lat=23,
             lng=121,
             landcode="000120324",
-            factory_type=None,
+            ohshown_event_type=None,
             before_release=True,
             cet_report_status="A",
             created_at=datetime.now() - timedelta(days=100),
@@ -185,7 +185,7 @@ class TestFactorySerializers:
                 lat=23,
                 lng=121,
                 landcode="000120324",
-                factory_type="8",
+                ohshown_event_type="8",
                 before_release=True,
                 cet_report_status="A",
                 display_number=666,
@@ -215,7 +215,7 @@ class TestFactorySerializers:
                 lat=23,
                 lng=121,
                 landcode="000120324",
-                factory_type="8",
+                ohshown_event_type="8",
                 before_release=True,
                 cet_report_status="A",
                 display_number=666,
@@ -246,7 +246,7 @@ class TestFactorySerializers:
                 lat=23,
                 lng=121,
                 landcode="000120324",
-                factory_type="8",
+                ohshown_event_type="8",
                 before_release=False,
                 cet_report_status="A",
                 display_number=666,
@@ -277,7 +277,7 @@ class TestFactorySerializers:
                 lat=23,
                 lng=121,
                 landcode="000120324",
-                factory_type="8",
+                ohshown_event_type="8",
                 before_release=False,
                 cet_report_status="A",
                 display_number=666,
@@ -302,7 +302,7 @@ class TestFactorySerializers:
                 lat=23,
                 lng=121,
                 landcode="000120324",
-                factory_type="8",
+                ohshown_event_type="8",
                 before_release=False,
                 cet_report_status="A",
                 display_number=666,
@@ -325,13 +325,13 @@ class TestFactorySerializers:
         serializer = FactorySerializer(factory)
         assert not serializer.data["data_complete"]
 
-    def test_allow_empty_factory_type(self, request_body):
+    def test_allow_empty_ohshown_event_type(self, request_body):
         request_body.pop('type')
         serializer = FactorySerializer(data=request_body)
 
         assert serializer.is_valid()
 
-    def test_allow_None_factory_type(self, request_body):
+    def test_allow_None_ohshown_event_type(self, request_body):
         request_body['type'] = None
         serializer = FactorySerializer(data=request_body)
 

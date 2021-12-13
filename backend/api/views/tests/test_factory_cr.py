@@ -89,13 +89,13 @@ def test_create_new_factory_db_status_correct(client):
     others = "這個工廠實在太臭啦，趕緊檢舉吧"
     nickname = "路過的家庭主婦"
     contact = "07-7533967"
-    factory_type = "2-3"
+    ohshown_event_type = "2-3"
     im1 = Image.objects.create(image_path="https://i.imgur.com/RxArJUc.png")
     im2 = Image.objects.create(image_path="https://imgur.dcard.tw/BB2L2LT.jpg")
     im_not_related = Image.objects.create(image_path="https://i.imgur.com/T3pdEyR.jpg")
     request_body = {
         "name": "a new factory",
-        "type": factory_type,
+        "type": ohshown_event_type,
         "images": [str(im1.id), str(im2.id)],
         "others": others,
         "lat": lat,
@@ -117,7 +117,7 @@ def test_create_new_factory_db_status_correct(client):
 
     assert new_factory.lat == lat
     assert new_factory.lng == lng
-    assert new_factory.factory_type == factory_type
+    assert new_factory.ohshown_event_type == ohshown_event_type
 
     report_records = ReportRecord.objects.filter(factory_id=new_factory_id)
     assert len(report_records) == 1
@@ -245,13 +245,13 @@ def test_create_factory_after_delete_the_latest_factory_with_maximum_display_num
     others = "這個工廠實在太臭啦，趕緊檢舉吧"
     nickname = "路過的家庭主婦"
     contact = "07-7533967"
-    factory_type = "2-3"
+    ohshown_event_type = "2-3"
     im1 = Image.objects.create(image_path="https://i.imgur.com/RxArJUc.png")
     im2 = Image.objects.create(image_path="https://imgur.dcard.tw/BB2L2LT.jpg")
     im_not_related = Image.objects.create(image_path="https://i.imgur.com/T3pdEyR.jpg")
     request_body = {
         "name": "a new factory",
-        "type": factory_type,
+        "type": ohshown_event_type,
         "images": [str(im1.id), str(im2.id)],
         "others": others,
         "lat": lat,

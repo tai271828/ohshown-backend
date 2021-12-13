@@ -27,7 +27,7 @@ def test_update_factory_normal_attribute(factory, client):
     assert factory.lng == 121
     put_body = {
         "name": "correct_factory",
-        "factory_type": "6",
+        "ohshown_event_type": "6",
     }
     resp = client.put(
         f"/api/factories/{factory.id}", data=put_body, content_type="application/json"
@@ -38,7 +38,7 @@ def test_update_factory_normal_attribute(factory, client):
     assert factory.name == "correct_factory"
     assert factory.lat == 24
     assert factory.lng == 121
-    assert factory.factory_type == "6"
+    assert factory.ohshown_event_type == "6"
 
     report_records = ReportRecord.objects.filter(factory_id=factory.id)
     assert len(report_records) == 1
@@ -53,7 +53,7 @@ def test_update_factory_with_contact(factory, client):
 
     put_body = {
         "name": "correct_factory",
-        "factory_type": "6",
+        "ohshown_event_type": "6",
         "contact": "0800092000",
         "others": "這工廠讓我坐骨神經痛",
     }
@@ -66,7 +66,7 @@ def test_update_factory_with_contact(factory, client):
     assert factory.name == "correct_factory"
     assert factory.lat == 24
     assert factory.lng == 121
-    assert factory.factory_type == "6"
+    assert factory.ohshown_event_type == "6"
 
     report_records = ReportRecord.objects.filter(factory_id=factory.id)
     assert len(report_records) == 1
