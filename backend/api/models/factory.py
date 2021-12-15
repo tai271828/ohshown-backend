@@ -137,6 +137,10 @@ class Factory(SoftDeleteMixin):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    class Meta:
+        verbose_name = "Ohshown Event"
+        verbose_name_plural = "Ohshown Events"
+
 
 class RecycledFactory(Factory):
     class Meta:
