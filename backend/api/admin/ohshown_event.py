@@ -26,7 +26,7 @@ import easymap
 
 LOGGER = logging.getLogger("django")
 
-class FactoryWithReportRecords(DateRangeFilter):
+class OhshownEventWithReportRecords(DateRangeFilter):
     def __init__(self, field, request, params, model, model_admin, field_path):
         super().__init__(field, request, params, model, model_admin, field_path)
         self.title = "report_record created_at"
@@ -44,7 +44,7 @@ class FactoryWithReportRecords(DateRangeFilter):
         return queryset
 
 
-class FactoryFilteredByCounty(SimpleListFilter):
+class OhshownEventFilteredByCounty(SimpleListFilter):
     title = "By county"
     parameter_name = "county"
     county_mappings = [
@@ -140,7 +140,7 @@ class DocumentInline(admin.TabularInline):
         return ",".join([p.name for p in obj.display_status_tags.all()])
 
 
-class ImageInlineForFactory(admin.TabularInline):
+class ImageInlineForOhshownEvent(admin.TabularInline):
     model = Image
     fields = (
         "image_show",
@@ -175,7 +175,7 @@ class ImageInlineForFactory(admin.TabularInline):
         return mark_safe(f'<img src="{obj.image_path}" style="max-width:500px; height:auto"/>')
 
 
-class FactoryAdmin(
+class OhshownEventAdmin(
     ImportExportModelAdmin,
     ExportCsvMixin,
     ExportLabelMixin,
@@ -197,14 +197,14 @@ class FactoryAdmin(
     search_fields = ["townname", "sectname", "display_number"]
     list_filter = (
         # XXX: actually not using `factory.created_at` but `repordRecord.created_at`
-        ("created_at", FactoryWithReportRecords),
+        ("created_at", OhshownEventWithReportRecords),
         "cet_review_status",
         "source",
         "ohshown_event_type",
         "building_status",
         "usage_status",
         "highlight_category",
-        FactoryFilteredByCounty,
+        OhshownEventFilteredByCounty,
     )
     ordering = ["-created_at"]
 
@@ -257,7 +257,7 @@ class FactoryAdmin(
         ),
     )
 
-    inlines = [DescriptionInline, ImageInlineForFactory, ReportRecordInline, DocumentInline]
+    inlines = [DescriptionInline, ImageInlineForOhshownEvent, ReportRecordInline, DocumentInline]
 
     def get_queryset(self, request):
         queryset = super().get_queryset(request)
@@ -332,7 +332,7 @@ class FactoryAdmin(
         super().save_model(request, obj, form, change)
 
 
-class RecycledFactoryAdmin(admin.ModelAdmin, RestoreMixin):
+class RecycledOhshownEventAdmin(admin.ModelAdmin, RestoreMixin):
     list_display = (
         "get_name",
         "deleted_at",
@@ -342,7 +342,7 @@ class RecycledFactoryAdmin(admin.ModelAdmin, RestoreMixin):
     actions = ["restore"]
     ordering = ["-deleted_at"]
 
-    inlines = [ImageInlineForFactory, ReportRecordInline]
+    inlines = [ImageInlineForOhshownEvent, ReportRecordInline]
 
     @set_function_attributes(short_description="name")
     def get_name(self, obj):

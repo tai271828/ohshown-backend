@@ -9,7 +9,7 @@ from api.models.ohshown_event import RecycledOhshownEvent
 from api.models.document import Document, CETNext, CETReportStatus, GovResponseStatus, FollowUp
 from api.models.image import RecycledImage
 from api.models.report_record import RecycledReportRecord
-from .factory import FactoryAdmin, RecycledFactoryAdmin
+from .ohshown_event import OhshownEventAdmin, RecycledOhshownEventAdmin
 from .image import ImageAdmin, RecycledImageAdmin
 from .report_record import ReportRecordAdmin, RecycledReportRecordAdmin
 from api.admin.document import (
@@ -21,8 +21,8 @@ from api.admin.document import (
 )
 
 # Register your models here.
-admin.register(OhshownEvent)(FactoryAdmin)
-admin.register(RecycledOhshownEvent)(RecycledFactoryAdmin)
+admin.register(OhshownEvent)(OhshownEventAdmin)
+admin.register(RecycledOhshownEvent)(RecycledOhshownEventAdmin)
 
 admin.register(Image)(ImageAdmin)
 admin.register(RecycledImage)(RecycledImageAdmin)
