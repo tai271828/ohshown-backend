@@ -1,7 +1,7 @@
 import datetime
 from django.db.models import Max
 
-from api.models import Document, Factory
+from api.models import Document, OhshownEvent
 from api.utils import set_function_attributes, normalize_townname
 
 
@@ -48,4 +48,4 @@ class GenerateDocsMixin:
             factories.append(factory)
 
         Document.objects.bulk_create(docs)
-        Factory.objects.bulk_update(factories, ["cet_review_status"])
+        OhshownEvent.objects.bulk_update(factories, ["cet_review_status"])

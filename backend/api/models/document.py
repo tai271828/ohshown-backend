@@ -1,7 +1,7 @@
 from django.db import models
 
 from .mixins import SoftDeleteMixin
-from .factory import Factory
+from .ohshown_event import OhshownEvent
 
 from users.models import CustomUser
 from .const import DocumentDisplayStatusConst
@@ -52,7 +52,7 @@ class Document(SoftDeleteMixin):
     note = models.TextField(null=True, blank=True)
     code = models.IntegerField(verbose_name="公文號")
     factory = models.ForeignKey(
-        Factory,
+        OhshownEvent,
         null=True,
         on_delete=models.SET_NULL,
         related_name="documents",

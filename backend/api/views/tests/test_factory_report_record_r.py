@@ -3,7 +3,7 @@ from uuid import uuid4
 
 import pytest
 
-from api.models import Factory, ReportRecord
+from api.models import OhshownEvent, ReportRecord
 
 
 pytestmark = pytest.mark.django_db
@@ -15,7 +15,7 @@ def factory_factory(db):
     class FactoryFactory:
 
         def create(self, display_number=666):
-            return Factory.objects.create(
+            return OhshownEvent.objects.create(
                 name="test_factory",
                 lat=24,
                 lng=121,

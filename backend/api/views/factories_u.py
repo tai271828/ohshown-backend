@@ -9,7 +9,7 @@ from django.http import JsonResponse, HttpResponse
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
 
-from ..models import Factory, ReportRecord
+from ..models import OhshownEvent, ReportRecord
 from ..serializers import FactorySerializer
 
 from .utils import _get_client_ip
@@ -21,7 +21,7 @@ LOGGER = logging.getLogger("django")
 
 def _handle_get_factory_attributes(request, factory_id):
     try:
-        factory = Factory.objects.get(pk=factory_id)
+        factory = OhshownEvent.objects.get(pk=factory_id)
         serializer = FactorySerializer(factory)
         return JsonResponse(serializer.data, safe=False)
     except ObjectDoesNotExist:
@@ -68,9 +68,9 @@ def _handle_update_factory_attributes(request, factory_id):
     }
 
     with transaction.atomic():
-        Factory.objects.filter(pk=factory_id).update(**updated_factory_fields)
+        OhshownEvent.objects.filter(pk=factory_id).update(**updated_factory_fields)
         ReportRecord.objects.create(**new_report_record_fields)
-        factory = Factory.objects.get(pk=factory_id)
+        factory = OhshownEvent.objects.get(pk=factory_id)
 
     serializer = FactorySerializer(factory)
     LOGGER.info(f"{client_ip} : <Update factory> {factory_id} {put_body} ")

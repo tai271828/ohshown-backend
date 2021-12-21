@@ -6,7 +6,7 @@ from django.http import HttpResponse, JsonResponse
 from django.db import transaction
 from rest_framework.decorators import api_view
 
-from api.models import Image, Factory, ReportRecord
+from api.models import Image, OhshownEvent, ReportRecord
 from api.serializers import ImageSerializer
 from .utils import _get_client_ip
 
@@ -56,7 +56,7 @@ def post_factory_image_url(request, factory_id):
         LOGGER.error(f"post_factory_image_url received no url from {user_ip}")
         return HttpResponse("`url` should be in post body", status=400)
 
-    if not Factory.objects.filter(pk=factory_id).exists():
+    if not OhshownEvent.objects.filter(pk=factory_id).exists():
         LOGGER.warning(
             f"post_factory_image_url receiving {factory_id} that does not exist from {user_ip}"
         )
@@ -82,7 +82,7 @@ def post_factory_image_url(request, factory_id):
         orig_time = None
 
     with transaction.atomic():
-        factory = Factory.objects.only("id").get(pk=factory_id)
+        factory = OhshownEvent.objects.only("id").get(pk=factory_id)
         report_record = ReportRecord.objects.create(
             factory=factory,
             action_type="POST_IMAGE",

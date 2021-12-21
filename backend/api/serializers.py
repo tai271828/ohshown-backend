@@ -9,10 +9,10 @@ from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.utils import timezone
 
-from .models import Factory, Image, ReportRecord, FollowUp
+from .models import OhshownEvent, Image, ReportRecord, FollowUp
 
 
-VALID_OHSHOWN_EVENT_TYPES = [t[0] for t in Factory.ohshown_event_type_list]
+VALID_OHSHOWN_EVENT_TYPES = [t[0] for t in OhshownEvent.ohshown_event_type_list]
 
 
 def _get_latest_time_or_none(objs):
@@ -42,7 +42,7 @@ class FactorySerializer(ModelSerializer):
     follow_ups_for_user = SerializerMethodField()
 
     class Meta:
-        model = Factory
+        model = OhshownEvent
         fields = [
             "id",
             "display_number",

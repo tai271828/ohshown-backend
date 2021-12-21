@@ -14,11 +14,11 @@ from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
 
 from .utils import _get_nearby_factories, _get_client_ip
-from ..models import Factory, Image, ReportRecord
+from ..models import OhshownEvent, Image, ReportRecord
 from ..serializers import FactorySerializer
 
 LOGGER = logging.getLogger("django")
-FactoryDoesNotExist = Factory.DoesNotExist
+FactoryDoesNotExist = OhshownEvent.DoesNotExist
 
 
 def _in_taiwan(lat, lng):
@@ -98,7 +98,7 @@ def _handle_create_factory(request):
             status=400,
         )
 
-    num = Factory.raw_objects.aggregate(Max("display_number"))
+    num = OhshownEvent.raw_objects.aggregate(Max("display_number"))
 
     new_factory_field = {
         "name": post_body["name"],
@@ -118,7 +118,7 @@ def _handle_create_factory(request):
     }
 
     with transaction.atomic():
-        new_factory = Factory.objects.create(**new_factory_field)
+        new_factory = OhshownEvent.objects.create(**new_factory_field)
         report_record = ReportRecord.objects.create(
             factory=new_factory,
             **new_report_record_field,
@@ -224,7 +224,7 @@ def get_factory_by_sectcode(request):
     # 因為在資料庫裡面， landcode 有多種儲存格式 82-18, 00820018 所以需要將 landcode 轉成這兩種格式來搜尋
     landcode_1 = f"{int(landcode[:4])}-{int(landcode[4:])}"
     try:
-        factory = Factory.objects.filter(Q(sectcode=sectcode), Q(landcode=landcode) | Q(landcode=landcode_1)).get()
+        factory = OhshownEvent.objects.filter(Q(sectcode=sectcode), Q(landcode=landcode) | Q(landcode=landcode_1)).get()
         serializer = FactorySerializer(factory)
         return JsonResponse(serializer.data, safe=False)
     except FactoryDoesNotExist as e:

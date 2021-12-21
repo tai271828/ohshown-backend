@@ -9,7 +9,7 @@ from freezegun import freeze_time
 
 from conftest import Unordered
 
-from ...models import Factory, ReportRecord, Image
+from ...models import OhshownEvent, ReportRecord, Image
 
 
 pytestmark = pytest.mark.django_db
@@ -113,7 +113,7 @@ def test_create_new_factory_db_status_correct(client):
     assert resp.status_code == 200
 
     new_factory_id = resp.json()["id"]
-    new_factory = Factory.objects.get(pk=new_factory_id)
+    new_factory = OhshownEvent.objects.get(pk=new_factory_id)
 
     assert new_factory.lat == lat
     assert new_factory.lng == lng
@@ -234,10 +234,10 @@ def test_query_factory_by_sectcode(client):
     assert data["sectname"] == "新生段"
 
 def test_create_factory_after_delete_the_latest_factory_with_maximum_display_number(client):
-    factory_with_max_num = Factory.objects.order_by('-display_number')[0]
+    factory_with_max_num = OhshownEvent.objects.order_by('-display_number')[0]
     factory_with_max_num.delete()
 
-    assert Factory.objects.order_by('-display_number')[0].display_number < factory_with_max_num.display_number
+    assert OhshownEvent.objects.order_by('-display_number')[0].display_number < factory_with_max_num.display_number
 
     # Create a new factory
     lat = 23.234
@@ -268,5 +268,5 @@ def test_create_factory_after_delete_the_latest_factory_with_maximum_display_num
 
     assert resp.status_code == 200
 
-    new_factory_with_max_num = Factory.raw_objects.order_by('-display_number')[0]
+    new_factory_with_max_num = OhshownEvent.raw_objects.order_by('-display_number')[0]
     assert new_factory_with_max_num.display_number == factory_with_max_num.display_number + 1

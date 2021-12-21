@@ -4,7 +4,7 @@ from django.conf import settings
 from django.db.models import Prefetch
 from django.db.models.functions.math import Radians, Cos, ACos, Sin
 
-from ..models import Factory, ReportRecord, Image, Document
+from ..models import OhshownEvent, ReportRecord, Image, Document
 
 
 def _sample(objs, k):
@@ -24,7 +24,7 @@ def _get_nearby_factories(latitude, longitude, radius):
 
     radius_km = radius
     ids = (
-        Factory.objects.annotate(distance=distance)
+        OhshownEvent.objects.annotate(distance=distance)
         .only("id")
         .filter(distance__lt=radius_km)
         .order_by("id")
@@ -34,7 +34,7 @@ def _get_nearby_factories(latitude, longitude, radius):
         ids = _sample(ids, settings.MAX_FACTORY_PER_GET)
 
     return (
-        Factory.objects.filter(id__in=[obj.id for obj in ids])
+        OhshownEvent.objects.filter(id__in=[obj.id for obj in ids])
         .prefetch_related(
             Prefetch("report_records", queryset=ReportRecord.objects.only("created_at").all())
         )

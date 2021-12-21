@@ -1,7 +1,7 @@
 from django.db import models
 
 from .mixins import SoftDeleteMixin
-from .factory import Factory
+from .ohshown_event import OhshownEvent
 
 from users.models import CustomUser
 
@@ -16,7 +16,7 @@ class Review(SoftDeleteMixin):
         related_name="reviews",
     )
     factory = models.ForeignKey(
-        Factory,
+        OhshownEvent,
         null=True,
         blank=True,
         on_delete=models.CASCADE,

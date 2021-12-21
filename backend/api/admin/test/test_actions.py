@@ -1,4 +1,4 @@
-from api.models.factory import Factory
+from api.models.ohshown_event import OhshownEvent
 from api.models.document import Document
 from api.models.image import Image
 import datetime
@@ -71,7 +71,7 @@ class TestModelAdmin:
             ]
 
             # Create factory
-            factory = Factory.objects.create(**data)
+            factory = OhshownEvent.objects.create(**data)
             factories.append(factory)
 
             # Update images
@@ -86,7 +86,7 @@ class TestModelAdmin:
         return AdminSite()
 
     def test_modeladmin_str(self, site):
-        ma = ModelAdmin(Factory, site)
+        ma = ModelAdmin(OhshownEvent, site)
         assert str(ma) == "api.ModelAdmin"
 
     def test_export_doc_action(self, admin_client, factories):

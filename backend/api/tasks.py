@@ -7,7 +7,7 @@ from django.conf import settings
 import requests
 
 import easymap
-from .models import Factory, Image
+from .models import OhshownEvent, Image
 
 LOGGER = logging.getLogger("django")
 
@@ -42,7 +42,7 @@ def _upload_image_to_imgur(image_buffer, client_id):
 
 
 def update_landcode(factory_id):
-    update_landcode_with_custom_factory_model(factory_id, Factory)
+    update_landcode_with_custom_factory_model(factory_id, OhshownEvent)
 
 
 def update_landcode_with_custom_factory_model(factory_id, factory_model):

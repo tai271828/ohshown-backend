@@ -3,7 +3,7 @@ import datetime
 import pytest
 from freezegun import freeze_time
 
-from ...models import Image, Factory, Document
+from ...models import Image, OhshownEvent, Document
 from ...models.const import DocumentDisplayStatusConst
 from ...models.document import DocumentDisplayStatusEnum
 
@@ -12,7 +12,7 @@ pytestmark = pytest.mark.django_db
 
 
 def update_landcode_with_custom_factory_model(factory_id):
-    Factory.objects.filter(pk=factory_id).update(
+    OhshownEvent.objects.filter(pk=factory_id).update(
         landcode="853-2",
         sectcode="5404",
         sectname="溪底寮段三寮灣小段",
@@ -86,7 +86,7 @@ def test_get_factory_statistics(client):
     Document.objects.create(
         cet_staff="AAA",
         code="123456",
-        factory=Factory.objects.get(id=id_list[0]),
+        factory=OhshownEvent.objects.get(id=id_list[0]),
         display_status=0
     )
     resp = client.get("/api/statistics/factories?townname=臺北市")
@@ -111,7 +111,7 @@ def test_get_factory_statistics(client):
     Document.objects.create(
         cet_staff="AAA",
         code="123457",
-        factory=Factory.objects.get(id=id_list[0]),
+        factory=OhshownEvent.objects.get(id=id_list[0]),
         display_status=1
     )
     resp = client.get(f"/api/statistics/factories?townname=台北市&display_status={DocumentDisplayStatusConst.REPORTED}")
@@ -134,19 +134,19 @@ def test_get_factory_statistics(client):
     Document.objects.create(
         cet_staff="AAA",
         code="123457",
-        factory=Factory.objects.get(id=id_list[0]),
+        factory=OhshownEvent.objects.get(id=id_list[0]),
         display_status=DocumentDisplayStatusEnum.INDICES[DocumentDisplayStatusConst.AUDIT_SCHEDULED]
     )
     Document.objects.create(
         cet_staff="AAA",
         code="123457",
-        factory=Factory.objects.get(id=id_list[1]),
+        factory=OhshownEvent.objects.get(id=id_list[1]),
         display_status=DocumentDisplayStatusEnum.INDICES[DocumentDisplayStatusConst.COMMUNICATION_PERIOD]
     )
     Document.objects.create(
         cet_staff="AAA",
         code="123457",
-        factory=Factory.objects.get(id=id_list[2]),
+        factory=OhshownEvent.objects.get(id=id_list[2]),
         display_status=DocumentDisplayStatusEnum.INDICES[DocumentDisplayStatusConst.WORK_STOPPED]
     )
 
@@ -161,13 +161,13 @@ def test_get_factory_statistics(client):
     Document.objects.create(
         cet_staff="AAA",
         code="123457",
-        factory=Factory.objects.get(id=id_list[3]),
+        factory=OhshownEvent.objects.get(id=id_list[3]),
         display_status=DocumentDisplayStatusEnum.INDICES[DocumentDisplayStatusConst.REPORTED]
     )
     Document.objects.create(
         cet_staff="AAA",
         code="123457",
-        factory=Factory.objects.get(id=id_list[3]),
+        factory=OhshownEvent.objects.get(id=id_list[3]),
         display_status=DocumentDisplayStatusEnum.INDICES[DocumentDisplayStatusConst.DEMOLITION_SCHEDULED]
     )
 
@@ -219,7 +219,7 @@ def test_get_total(client):
         Document.objects.create(
             cet_staff="AAA",
             code="123456",
-            factory=Factory.objects.get(id=factory_id),
+            factory=OhshownEvent.objects.get(id=factory_id),
             display_status=0
         )
 
@@ -228,7 +228,7 @@ def test_get_total(client):
     count = resp.json()["臺北市"][DocumentDisplayStatusConst.OPEN]
     assert count == 10, f"expect 10 but {count}"
 
-    for factory in Factory.objects.order_by("-created_at").all()[:5]:
+    for factory in OhshownEvent.objects.order_by("-created_at").all()[:5]:
         Document.objects.create(
             cet_staff="AAA",
             code="123456",
@@ -241,7 +241,7 @@ def test_get_total(client):
     count = resp.json()["臺南市"][DocumentDisplayStatusConst.IN_PROGRESS]
     assert count == 5, f"expect 5 but {count}"
 
-    for factory in Factory.objects.order_by("-created_at").all()[5:10]:
+    for factory in OhshownEvent.objects.order_by("-created_at").all()[5:10]:
         Document.objects.create(
             cet_staff="AAA",
             code="123456",
@@ -254,7 +254,7 @@ def test_get_total(client):
     count = resp.json()["臺南市"][DocumentDisplayStatusConst.IN_PROGRESS]
     assert count == 10, f"expect 10 but {count}"
 
-    for factory in Factory.objects.order_by("-created_at"):
+    for factory in OhshownEvent.objects.order_by("-created_at"):
         Document.objects.create(
             cet_staff="AAA",
             code="123456",

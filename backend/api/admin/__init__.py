@@ -1,11 +1,11 @@
 from django.contrib import admin
 
 from api.models import (
-    Factory,
+    OhshownEvent,
     Image,
     ReportRecord,
 )
-from api.models.factory import RecycledFactory
+from api.models.ohshown_event import RecycledOhshownEvent
 from api.models.document import Document, CETNext, CETReportStatus, GovResponseStatus, FollowUp
 from api.models.image import RecycledImage
 from api.models.report_record import RecycledReportRecord
@@ -21,8 +21,8 @@ from api.admin.document import (
 )
 
 # Register your models here.
-admin.register(Factory)(FactoryAdmin)
-admin.register(RecycledFactory)(RecycledFactoryAdmin)
+admin.register(OhshownEvent)(FactoryAdmin)
+admin.register(RecycledOhshownEvent)(RecycledFactoryAdmin)
 
 admin.register(Image)(ImageAdmin)
 admin.register(RecycledImage)(RecycledImageAdmin)
