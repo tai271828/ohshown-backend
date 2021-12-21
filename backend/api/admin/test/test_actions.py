@@ -101,7 +101,7 @@ class TestModelAdmin:
             "_selected_action": str(factories[0].id),
         }
 
-        response = admin_client.post("/admin/api/factory/", document_request)
+        response = admin_client.post("/admin/api/ohshownevent/", document_request)
         assert (
             response.status_code == 302
         ), f"status_code of generate_docs action should be 302 but {response.status_code}"
@@ -133,7 +133,7 @@ class TestModelAdmin:
             "index": 0,
             "_selected_action": factories[1].id,
         }
-        response = admin_client.post("/admin/api/factory/", create_document_request)
+        response = admin_client.post("/admin/api/ohshownevent/", create_document_request)
         assert (
             response.status_code == 302
         ), f"status_code of generate_docs action should be 302 but {response.status_code}"
