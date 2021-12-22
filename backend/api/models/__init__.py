@@ -1,4 +1,4 @@
-from .factory import Factory
+from .ohshown_event import OhshownEvent
 from .report_record import ReportRecord
 from .image import Image
 from .document import Document, DocumentDisplayStatusEnum, FollowUp

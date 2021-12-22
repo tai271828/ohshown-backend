@@ -6,7 +6,7 @@ from freezegun import freeze_time
 from conftest import SuperSet, Unordered
 
 from ..serializers import FactorySerializer, ImageSerializer
-from ..models import Factory, ReportRecord, Image
+from ..models import OhshownEvent, ReportRecord, Image
 
 
 @pytest.mark.django_db
@@ -33,7 +33,7 @@ class TestFactorySerializers:
         }
 
     def test_factory_serializer_correct_report_date(self):
-        factory = Factory(
+        factory = OhshownEvent(
             name="test factory",
             lat=23,
             lng=121,
@@ -125,7 +125,7 @@ class TestFactorySerializers:
         assert "lng" in serializer.errors
 
     def test_data_complete_false_if_no_type_for_old(self):
-        factory = Factory.objects.create(
+        factory = OhshownEvent.objects.create(
             name="test factory",
             lat=23,
             lng=121,
@@ -154,7 +154,7 @@ class TestFactorySerializers:
         assert not serializer.data["data_complete"]
 
     def test_data_complete_false_if_no_image_for_old(self):
-        factory = Factory.objects.create(
+        factory = OhshownEvent.objects.create(
             name="test factory",
             lat=23,
             lng=121,
@@ -180,7 +180,7 @@ class TestFactorySerializers:
     def test_data_complete_false_if_last_report_longer_than_one_year_ago(self):
         test_time = datetime.now() - timedelta(days=365 * 2)
         with freeze_time(test_time):
-            factory = Factory.objects.create(
+            factory = OhshownEvent.objects.create(
                 name="test factory",
                 lat=23,
                 lng=121,
@@ -210,7 +210,7 @@ class TestFactorySerializers:
     def test_data_complete_true(self):
         factory_create = datetime.now() - timedelta(days=365)
         with freeze_time(factory_create):
-            factory = Factory.objects.create(
+            factory = OhshownEvent.objects.create(
                 name="test factory",
                 lat=23,
                 lng=121,
@@ -241,7 +241,7 @@ class TestFactorySerializers:
     def test_data_complete_true_after_2016(self):
         factory_create = datetime.now() - timedelta(days=365)
         with freeze_time(factory_create):
-            factory = Factory.objects.create(
+            factory = OhshownEvent.objects.create(
                 name="test factory",
                 lat=23,
                 lng=121,
@@ -272,7 +272,7 @@ class TestFactorySerializers:
     def test_data_complete_true_after_2016_no_image(self):
         factory_create = datetime.now() - timedelta(days=365)
         with freeze_time(factory_create):
-            factory = Factory.objects.create(
+            factory = OhshownEvent.objects.create(
                 name="test factory",
                 lat=23,
                 lng=121,
@@ -297,7 +297,7 @@ class TestFactorySerializers:
     def test_data_complete_false_after_long_time_no_report(self):
         factory_create = datetime.now() - timedelta(days=365 * 2)
         with freeze_time(factory_create):
-            factory = Factory.objects.create(
+            factory = OhshownEvent.objects.create(
                 name="test factory",
                 lat=23,
                 lng=121,

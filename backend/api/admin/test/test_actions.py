@@ -1,4 +1,4 @@
-from api.models.factory import Factory
+from api.models.ohshown_event import OhshownEvent
 from api.models.document import Document
 from api.models.image import Image
 import datetime
@@ -20,9 +20,9 @@ class MockSuperUser:
 request = MockRequest()
 request.user = MockSuperUser()
 
-TEST_FACTORY_DATA = [
+TEST_OHSHOWN_EVENT_DATA = [
     {
-        "name": "Test Factory 1",
+        "name": "Test Ohshown Event 1",
         "ohshown_event_type": "2-3",
         "images": [
             "https://i.imgur.com/CSdR281.png",
@@ -36,7 +36,7 @@ TEST_FACTORY_DATA = [
         "townname": "新北市三峽路中山區",
     },
     {
-        "name": "Test Factory 2",
+        "name": "Test Ohshown Event 2",
         "ohshown_event_type": "2-1",
         "images": [
             "https://i.imgur.com/3XPyVuF.png",
@@ -63,20 +63,21 @@ class TestModelAdmin:
     @pytest.fixture
     def factories(self, db):
         factories = []
-        for data in TEST_FACTORY_DATA:
+        for data in TEST_OHSHOWN_EVENT_DATA:
             # Insert images
             images = [
                 Image.objects.create(image_path=image_path)
                 for image_path in data.pop("images", [])
             ]
 
-            # Create factory
-            factory = Factory.objects.create(**data)
-            factories.append(factory)
+            # Create Ohshown Event
+            ohshown_event = OhshownEvent.objects.create(**data)
+            factories.append(ohshown_event)
 
             # Update images
             for image in images:
-                image.factory = factory
+                # todo: change the factory field in Image class
+                image.factory = ohshown_event
                 image.save()
 
         return factories
@@ -86,14 +87,14 @@ class TestModelAdmin:
         return AdminSite()
 
     def test_modeladmin_str(self, site):
-        ma = ModelAdmin(Factory, site)
+        ma = ModelAdmin(OhshownEvent, site)
         assert str(ma) == "api.ModelAdmin"
 
     def test_export_doc_action(self, admin_client, factories):
         # Remove all document models
         Document.objects.all().delete()
 
-        # Generate document model for factory
+        # Generate document model for Ohshown Event
         document_request = {
             "action": "generate_docs",
             "select_across": 0,
@@ -101,7 +102,7 @@ class TestModelAdmin:
             "_selected_action": str(factories[0].id),
         }
 
-        response = admin_client.post("/admin/api/factory/", document_request)
+        response = admin_client.post("/admin/api/ohshownevent/", document_request)
         assert (
             response.status_code == 302
         ), f"status_code of generate_docs action should be 302 but {response.status_code}"
@@ -126,14 +127,14 @@ class TestModelAdmin:
         # Remove all document models
         Document.objects.all().delete()
 
-        # Generate document model for factory
+        # Generate document model for Ohshown Event
         create_document_request = {
             "action": "generate_docs",
             "select_across": 0,
             "index": 0,
             "_selected_action": factories[1].id,
         }
-        response = admin_client.post("/admin/api/factory/", create_document_request)
+        response = admin_client.post("/admin/api/ohshownevent/", create_document_request)
         assert (
             response.status_code == 302
         ), f"status_code of generate_docs action should be 302 but {response.status_code}"

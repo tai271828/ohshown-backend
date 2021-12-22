@@ -5,7 +5,7 @@ import pytest
 from freezegun import freeze_time
 from django.test import Client
 
-from api.models import Factory, Image, ReportRecord
+from api.models import OhshownEvent, Image, ReportRecord
 
 
 FAKE_IMGUR_PATH = "https://i.imgur.com/RxArJUc.png"
@@ -17,7 +17,7 @@ class TestPostFactoryImageView:
     @pytest.fixture(autouse=True)
     def setUp(self, client):
         self.cli = client
-        self.factory = Factory.objects.create(
+        self.factory = OhshownEvent.objects.create(
             name="test_factory",
             lat=24,
             lng=121,

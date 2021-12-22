@@ -8,7 +8,7 @@ from .mixins import SoftDeleteMixin
 CustomUser = get_user_model()
 
 
-class Factory(SoftDeleteMixin):
+class OhshownEvent(SoftDeleteMixin):
     """Factories that are potential to be illegal."""
 
     # List of fact_type & status
@@ -142,8 +142,8 @@ class Factory(SoftDeleteMixin):
         verbose_name_plural = "Ohshown Events"
 
 
-class RecycledFactory(Factory):
+class RecycledOhshownEvent(OhshownEvent):
     class Meta:
         proxy = True
 
-    objects = Factory.recycle_objects
+    objects = OhshownEvent.recycle_objects

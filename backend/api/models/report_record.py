@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.postgres.fields import JSONField
 
 from .mixins import SoftDeleteMixin
-from .factory import Factory
+from .ohshown_event import OhshownEvent
 
 
 class ReportRecord(SoftDeleteMixin):
@@ -14,7 +14,7 @@ class ReportRecord(SoftDeleteMixin):
     """
 
     id = models.AutoField(primary_key=True)
-    factory = models.ForeignKey(Factory, on_delete=models.CASCADE, related_name="report_records")
+    factory = models.ForeignKey(OhshownEvent, on_delete=models.CASCADE, related_name="report_records")
     action_type = models.CharField(max_length=10)  # PUT, POST
     action_body = JSONField()  # request body
     created_at = models.DateTimeField(auto_now_add=True)

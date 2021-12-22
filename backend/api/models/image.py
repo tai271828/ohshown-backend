@@ -3,7 +3,7 @@ import uuid
 from django.db import models
 
 from .mixins import SoftDeleteMixin
-from .factory import Factory
+from .ohshown_event import OhshownEvent
 from .report_record import ReportRecord
 
 
@@ -16,7 +16,7 @@ class Image(SoftDeleteMixin):
         editable=False,
     )
     factory = models.ForeignKey(
-        Factory,
+        OhshownEvent,
         on_delete=models.CASCADE,
         related_name="images",
         blank=True,

@@ -4,7 +4,7 @@ from uuid import uuid4
 import pytest
 from freezegun import freeze_time
 
-from api.models import Factory, ReportRecord
+from api.models import OhshownEvent, ReportRecord
 
 
 pytestmark = pytest.mark.django_db
@@ -12,7 +12,7 @@ pytestmark = pytest.mark.django_db
 
 @pytest.fixture
 def factory(db):
-    return Factory.objects.create(
+    return OhshownEvent.objects.create(
         name="test_factory",
         lat=24,
         lng=121,
@@ -34,7 +34,7 @@ def test_update_factory_normal_attribute(factory, client):
     )
     assert resp.status_code == 200
 
-    factory = Factory.objects.get(pk=factory.id)
+    factory = OhshownEvent.objects.get(pk=factory.id)
     assert factory.name == "correct_factory"
     assert factory.lat == 24
     assert factory.lng == 121
@@ -62,7 +62,7 @@ def test_update_factory_with_contact(factory, client):
     )
     assert resp.status_code == 200
 
-    factory = Factory.objects.get(pk=factory.id)
+    factory = OhshownEvent.objects.get(pk=factory.id)
     assert factory.name == "correct_factory"
     assert factory.lat == 24
     assert factory.lng == 121
@@ -89,7 +89,7 @@ def test_update_factory_status(factory, client):
         )
     assert resp.status_code == 200
 
-    factory = Factory.objects.get(pk=factory.id)
+    factory = OhshownEvent.objects.get(pk=factory.id)
     assert factory.cet_report_status == "P"
 
 

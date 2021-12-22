@@ -4,7 +4,7 @@ from drf_yasg.utils import swagger_auto_schema
 from rest_framework.decorators import api_view
 from django.db.models import Q
 
-from ..models import Factory, Document, Image, ReportRecord
+from ..models import OhshownEvent, Document, Image, ReportRecord
 from ..models.const import DocumentDisplayStatusConst
 from ..models.document import DocumentDisplayStatusEnum
 from ..utils import normalize_townname
@@ -38,9 +38,9 @@ def _generate_factories_query_set(townname, source, display_status):
             docs = docs.filter(display_status=display_status)
 
         factory_id_list = list(map(lambda item: item.factory_id, docs))
-        queryset = Factory.objects.filter(id__in=factory_id_list)
+        queryset = OhshownEvent.objects.filter(id__in=factory_id_list)
     else:
-        queryset = Factory.objects
+        queryset = OhshownEvent.objects
 
     # townname
     if townname:
@@ -421,7 +421,7 @@ def get_statistics_total(request):
         result[city] = {}
 
         # factories
-        factories = Factory.objects.filter(
+        factories = OhshownEvent.objects.filter(
             Q(townname__startswith=city) | Q(townname__startswith=f"臺灣省{city}")
         )
         result[city]["factories"] = factories.count()

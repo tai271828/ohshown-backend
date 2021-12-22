@@ -1,7 +1,7 @@
 import pytest
 from django.db.models.functions.math import Radians, Cos, ACos, Sin
 
-from api.models import Factory
+from api.models import OhshownEvent
 from conftest import Unordered
 
 
@@ -16,7 +16,7 @@ def test_migration_seed_data_correctly():
         + Sin(Radians(latitude)) * Sin(Radians("lat"))
     )
 
-    factories = Factory.objects.annotate(distance=distance).filter(
+    factories = OhshownEvent.objects.annotate(distance=distance).filter(
         distance__lt=radius_km,
     )
 
