@@ -21,3 +21,18 @@ class DocumentDisplayStatusConst:
                    WAITING_FOR_NEW_EVIDENCE]
 
     STATUS_LIST_ENRICHMENT = STATUS_LIST + [IN_PROGRESS]
+
+
+class OhshownEventConst:
+    TYPE_LIST = [
+        ('2-1', '痕跡: 爪痕'),
+        ('2-2', '痕跡: 排遺'),
+        ('2-3', '痕跡: 植物折痕'),
+        ('3', '人熊衝突現場痕跡 - 雞舍'),
+        ('4', '人熊衝突現場痕跡 - 果園'),
+        ('5', '人熊衝突現場痕跡 - 其他'),
+        ('6', '死亡'),
+        ('7', '現場目擊 - 不確定'),
+        ('8', '現場目擊 - 確定'),
+        ('9', '其他')
+    ]
