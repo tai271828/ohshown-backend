@@ -26,6 +26,7 @@ from .views import (
     get_images_count_by_townname,
     get_report_records_count_by_townname,
     get_statistics_total,
+    get_ohshown_event_type_list,
 )
 
 urlpatterns = [
@@ -39,4 +40,5 @@ urlpatterns = [
     path("statistics/report_records", get_report_records_count_by_townname),
     path("statistics/total", get_statistics_total),
     path("images", post_image_url),
+    path("resources/ohshown-event-type", get_ohshown_event_type_list),
 ]
