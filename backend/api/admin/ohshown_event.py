@@ -278,10 +278,10 @@ class OhshownEventAdmin(
 
         return format_html(html_template.format(lat=obj.lat, lng=obj.lng))
 
-    @set_function_attributes(short_description="Disfactory Map 連結")
+    @set_function_attributes(short_description="Ohshown Map 連結")
     def disfactory_map_link(self, obj):
         disfactory_frontend_domain = os.environ.get(
-            "DISFACTORY_FRONTEND_DOMAIN", "https://disfactory.tw/"
+            "DISFACTORY_FRONTEND_DOMAIN", "http://ohshown.site:8080/"
         )
 
         url = urljoin(disfactory_frontend_domain, f"/#map=16.00/{obj.lng}/{obj.lat}")
