@@ -220,7 +220,7 @@ class OhshownEventAdmin(
         "created_at",
         "updated_at",
         "google_map_link",
-        "disfactory_map_link",
+        "ohshown_map_link",
         "follow_ups_for_user",
     )
     fieldsets = (
@@ -246,7 +246,7 @@ class OhshownEventAdmin(
                     ("sectname", "sectcode"),
                     ("lng", "lat"),
                     "google_map_link",
-                    "disfactory_map_link",
+                    "ohshown_map_link",
                     "ohshown_event_type",
                     "name",
                     ("created_at", "updated_at"),
@@ -278,13 +278,13 @@ class OhshownEventAdmin(
 
         return format_html(html_template.format(lat=obj.lat, lng=obj.lng))
 
-    @set_function_attributes(short_description="Disfactory Map 連結")
-    def disfactory_map_link(self, obj):
-        disfactory_frontend_domain = os.environ.get(
-            "DISFACTORY_FRONTEND_DOMAIN", "https://disfactory.tw/"
+    @set_function_attributes(short_description="Ohshown Map 連結")
+    def ohshown_map_link(self, obj):
+        ohshown_frontend_domain = os.environ.get(
+            "OHSHOWN_FRONTEND_DOMAIN", "http://ohshown.site:8080/"
         )
 
-        url = urljoin(disfactory_frontend_domain, f"/#map=16.00/{obj.lng}/{obj.lat}")
+        url = urljoin(ohshown_frontend_domain, f"/#map=16.00/{obj.lng}/{obj.lat}")
 
         html_template = f"<a href='{url}' target='_blank'>Link</a>"
 
