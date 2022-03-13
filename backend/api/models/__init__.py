@@ -4,3 +4,4 @@ from .image import Image
 from .document import Document, DocumentDisplayStatusEnum, FollowUp
 from .review import Review
 from .gov_agency import GovAgency
+from .shown_report import ShownReport
