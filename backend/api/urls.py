@@ -17,7 +17,7 @@ from api.views.factories_cr import get_factory_by_sectcode
 from django.urls import path
 
 from .views import (
-    get_nearby_or_create_factories,
+    get_nearby_or_create_ohshown_events,
     update_factory_attribute,
     get_factory_report,
     post_image_url,
@@ -30,7 +30,7 @@ from .views import (
 )
 
 urlpatterns = [
-    path("factories", get_nearby_or_create_factories),
+    path("ohshown-events", get_nearby_or_create_ohshown_events),
     path("sectcode", get_factory_by_sectcode),
     path("factories/<factory_id>", update_factory_attribute),
     path("factories/<factory_id>/report_records", get_factory_report),

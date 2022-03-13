@@ -17,25 +17,25 @@ pytestmark = pytest.mark.django_db
 
 def test_get_nearby_factory_wrong_params(client):
     # case 1: missing parameter
-    resp = client.get("/api/factories?lat=23")
+    resp = client.get("/api/ohshown-events?lat=23")
     assert resp.status_code == 400
     assert resp.content == b"Missing query parameter: lng, range."
 
-    resp = client.get("/api/factories?lng=121&range=0.2")
+    resp = client.get("/api/ohshown-events?lng=121&range=0.2")
     assert resp.status_code == 400
     assert resp.content == b"Missing query parameter: lat."
 
     # case 2: not querying Taiwan
-    resp = client.get("/api/factories?lat=39.9046126&lng=116.3977254&range=1")
+    resp = client.get("/api/ohshown-events?lat=39.9046126&lng=116.3977254&range=1")
     assert resp.status_code == 400
     assert b"The query position is not in the range of Taiwan." in resp.content
 
     # case 3: wrong query radius
-    resp = client.get("/api/factories?lat=23&lng=121&range=10000")
+    resp = client.get("/api/ohshown-events?lat=23&lng=121&range=10000")
     assert resp.status_code == 400
     assert resp.content == b"`range` should be within 0.01 to 100 km, but got 10000.0"
 
-    resp = client.get("/api/factories?lat=23&lng=121&range=0.001")
+    resp = client.get("/api/ohshown-events?lat=23&lng=121&range=0.001")
     assert resp.status_code == 400
     assert resp.content == b"`range` should be within 0.01 to 100 km, but got 0.001"
 
@@ -46,7 +46,7 @@ def test_get_nearby_factory_called_util_func_correctly(client):
         lat = 23.12
         lng = 121.5566
         r = 0.5
-        client.get(f"/api/factories?lat={lat}&lng={lng}&range={r}")
+        client.get(f"/api/ohshown-events?lat={lat}&lng={lng}&range={r}")
 
         mock_func.assert_called_once_with(
             latitude=lat,
@@ -61,7 +61,7 @@ def test_get_nearby_factory_called_on_test_data(client):
     lat = 23.234
     lng = 120.1
     r = 1
-    resp = client.get(f"/api/factories?lat={lat}&lng={lng}&range={r}")
+    resp = client.get(f"/api/ohshown-events?lat={lat}&lng={lng}&range={r}")
     assert resp.status_code == 200
 
     factories = resp.json()
@@ -107,7 +107,7 @@ def test_create_new_factory_db_status_correct(client):
     test_time = datetime.datetime(2019, 11, 11, 11, 11, 11, tzinfo=datetime.timezone.utc)
     with freeze_time(test_time):
         resp = client.post(
-            "/api/factories", data=request_body, content_type="application/json"
+            "/api/ohshown-events", data=request_body, content_type="application/json"
         )
 
     assert resp.status_code == 200
@@ -150,7 +150,7 @@ def test_create_new_factory_raise_if_image_id_not_exist(client):
         "nickname": "路過的家庭主婦",
         "contact": "07-7533967",
     }
-    resp = client.post("/api/factories", data=request_body, content_type="application/json")
+    resp = client.post("/api/ohshown-events", data=request_body, content_type="application/json")
 
     assert resp.status_code == 400
     assert resp.content == b"please check if every image id exist"
@@ -166,7 +166,7 @@ def test_create_new_factory_allow_no_contact(client):
         "lng": 120.1,
         "nickname": "",
     }
-    resp = client.post("/api/factories", data=request_body, content_type="application/json")
+    resp = client.post("/api/ohshown-events", data=request_body, content_type="application/json")
 
     assert resp.status_code == 200
 
@@ -180,7 +180,7 @@ def test_create_new_factory_allow_empty_type(client):
         "lng": 120.1,
         "nickname": "",
     }
-    resp = client.post("/api/factories", data=request_body, content_type="application/json")
+    resp = client.post("/api/ohshown-events", data=request_body, content_type="application/json")
 
     assert resp.status_code == 200
 
@@ -196,7 +196,7 @@ def test_create_new_factory_raise_if_not_in_Taiwan(client):
         "nickname": "",
         "contact": "07-7533967",
     }
-    resp = client.post("/api/factories", data=request_body, content_type="application/json")
+    resp = client.post("/api/ohshown-events", data=request_body, content_type="application/json")
 
     assert resp.status_code == 400
     assert "lat" in resp.json()
@@ -221,7 +221,7 @@ def test_create_new_factory_raise_if_type_is_not_invalid(client):
         "contact": contact,
     }
 
-    resp = client.post("/api/factories", data=request_body, content_type="application/json")
+    resp = client.post("/api/ohshown-events", data=request_body, content_type="application/json")
 
     assert resp.status_code == 400
     assert "type" in resp.json()
@@ -263,7 +263,7 @@ def test_create_factory_after_delete_the_latest_factory_with_maximum_display_num
     test_time = datetime.datetime(2019, 11, 11, 11, 11, 11, tzinfo=datetime.timezone.utc)
     with freeze_time(test_time):
         resp = client.post(
-            "/api/factories", data=request_body, content_type="application/json"
+            "/api/ohshown-events", data=request_body, content_type="application/json"
         )
 
     assert resp.status_code == 200

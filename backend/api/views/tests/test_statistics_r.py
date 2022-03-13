@@ -46,7 +46,7 @@ def create_factory(cli):
     test_time = datetime.datetime(2019, 11, 11, 11, 11, 11, tzinfo=datetime.timezone.utc)
     with freeze_time(test_time):
         resp = cli.post(
-            "/api/factories", data=request_body, content_type="application/json"
+            "/api/ohshown-events", data=request_body, content_type="application/json"
         )
         data = resp.json()
         update_landcode_with_custom_factory_model(data["id"])
