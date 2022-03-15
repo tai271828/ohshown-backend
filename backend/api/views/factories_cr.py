@@ -37,7 +37,7 @@ def _all_image_id_exist(image_ids: List[str]) -> bool:
     return len(images) == len(image_ids)
 
 
-def _handle_get_factories(request):
+def _handle_get_ohshown_events(request):
     try:
         latitude = request.GET["lat"]  # 緯度: y
         longitude = request.GET["lng"]  # 經度: x
@@ -76,7 +76,7 @@ def _handle_get_factories(request):
     serializer = FactorySerializer(nearby_factories, many=True)
     return JsonResponse(serializer.data, safe=False)
 
-def _handle_create_factory(request):
+def _handle_create_ohshown_events(request):
     post_body = request.data
     user_ip = _get_client_ip(request)
 
@@ -172,11 +172,11 @@ def _handle_create_factory(request):
     auto_schema=None,
 )
 @api_view(["GET", "POST"])
-def get_nearby_or_create_factories(request):
+def get_nearby_or_create_ohshown_events(request):
     if request.method == "GET":
-        return _handle_get_factories(request)
+        return _handle_get_ohshown_events(request)
     elif request.method == "POST":
-        return _handle_create_factory(request)
+        return _handle_create_ohshown_events(request)
 
 @swagger_auto_schema(
     method="get",
