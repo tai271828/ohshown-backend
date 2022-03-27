@@ -1,6 +1,11 @@
-# Disfactory Backend
+# OH!SHOWN Backend
 
-`Disfactory 違章工廠舉報系統` 的後端。提供給前端的 API 以及一個管理後台
+`OH!SHOWN 野生動物出沒痕跡通報系統` 的後端。提供給 [前端](https://github.com/tai271828/disfactory-frontend) 的 API 以及一個管理後台。
+
+本專案為 [Disfactory 違章工廠舉報系統](https://github.com/Disfactory) 分支，感謝相關社群與人士分享與指教。
+
+分支目前還處於基於 [Disfactory 違章工廠舉報系統](https://github.com/Disfactory) 程式碼重構施工階段中。
+文件、程式碼與單元測試皆尚未更新完畢；歡迎大家直接送重構用程式碼、補丁與 Pull Request 。
 
 ## Architecture
 
