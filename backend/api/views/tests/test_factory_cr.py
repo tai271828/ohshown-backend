@@ -65,19 +65,13 @@ def test_get_nearby_factory_called_on_test_data(client):
     assert resp.status_code == 200
 
     factories = resp.json()
-    assert len(factories) == 9
+    assert len(factories) == 3
     assert (
         [f["name"] for f in factories]
         == Unordered([
             "既有違章工廠 No.2",
             "既有違章工廠 No.3",
             "既有違章工廠 No.8",
-            "既有違章工廠 No.9",
-            "既有違章工廠 No.10",
-            "既有違章工廠 No.11",
-            "既有違章工廠 No.12",
-            "既有違章工廠 No.13",
-            "既有違章工廠 No.22",
         ])
     )
     assert all(f["source"] == "G" for f in factories)
