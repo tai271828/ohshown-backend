@@ -32,8 +32,8 @@ DEBUG = os.environ.get("DISFACTORY_BACKEND_DEBUG", "true").lower() == "true"
 
 allowed_hosts = []
 
-hosts_in_env = os.environ.get("DISFACTORY_ALLOWED_HOST", None)
-print(hosts_in_env)
+hosts_in_env = os.environ.get("OHSHOWN_ALLOWED_HOST", None)
+print(f"Django allowed hosts in the env file: {hosts_in_env}")
 
 if hosts_in_env is not None:
     try:
@@ -41,11 +41,11 @@ if hosts_in_env is not None:
             allowed_hosts.append(host.split(";")[0])
     except Exception:
         print(
-            "error occurs when parsing allowed_hosts, please check the environment variable `DISFACTORY_ALLOWED_HOST`"
+            "error occurs when parsing allowed_hosts, please check the environment variable `OHSHOWN_ALLOWED_HOST`"
         )
 else:
     print(
-        "can't read allowed_hosts, please check the environment variable `DISFACTORY_ALLOWED_HOST`"
+        "can't read allowed_hosts, please check the environment variable `OHSHOWN_ALLOWED_HOST`"
     )
 
 ALLOWED_HOSTS = allowed_hosts
