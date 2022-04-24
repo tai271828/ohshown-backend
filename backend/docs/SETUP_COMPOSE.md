@@ -59,6 +59,13 @@ docker-compose exec web python manage.py createsuperuser
 docker-compose -f docker-compose.dev.yml down
 ```
 
+If you want to also purge your testing database, stop the containers and remove the corresponding volumes in the host
+
+```bash
+docker-compose -f docker-compose.dev.yml down --rmi all --volumes
+rm -rf /tmp/disfactory_d*
+```
+
 ## Other commands
 
 - See logs
