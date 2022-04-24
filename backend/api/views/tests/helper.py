@@ -6,8 +6,8 @@ from ...models import Image, OhshownEvent
 
 LAT = 23.234
 LNG = 120.1
-OTHERS = "這個工廠實在太臭啦，趕緊檢舉吧"
-NICKNAME = "路過的家庭主婦"
+OTHERS = "Oh! Something black shows up!"
+NICKNAME = "Mighty girl"
 CONTACT = "07-7533967"
 OHSHOWN_EVENT_TYPE = "2-3"
 TEST_TIME = datetime.datetime(2019, 11, 11, 11, 11, 11, tzinfo=datetime.timezone.utc)
