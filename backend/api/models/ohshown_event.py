@@ -9,7 +9,7 @@ CustomUser = get_user_model()
 
 
 class OhshownEvent(SoftDeleteMixin):
-    """Factories that are potential to be illegal."""
+    """Ohshown events that are observed potentially."""
 
     # List of fact_type & status
     ohshown_event_type_list = [
