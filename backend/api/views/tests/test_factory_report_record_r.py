@@ -19,6 +19,7 @@ def factory_factory(db):
                 name="test_factory",
                 lat=24,
                 lng=121,
+                sight_see_date_time=datetime(2019, 10, 11, 11, 11, 11),
                 status_time=datetime(2019, 11, 11, 11, 11, 11, tzinfo=timezone.utc),
                 display_number=display_number or 666,
             )

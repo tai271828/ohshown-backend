@@ -40,7 +40,8 @@ def create_ohshown_event(cli, im2_str=None, no_contact=False, empty_type=False, 
         "lng": lng,
         "nickname": nickname,
         "contact": contact,
-        "datetime": datetime.datetime(2019, 10, 10, 10, 10, 10, tzinfo=datetime.timezone.utc).isoformat(),
+        # 20191010-101010 GTM+0
+        "datetime": 1570702210000,
     }
 
     if no_contact:
