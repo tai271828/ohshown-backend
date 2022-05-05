@@ -100,10 +100,13 @@ def _handle_create_ohshown_events(request):
 
     num = OhshownEvent.raw_objects.aggregate(Max("display_number"))
 
+    sight_see_timestamp_to_datetime = post_body["datetime"] / 1e3
+
     new_factory_field = {
         "name": post_body["name"],
         "lat": post_body["lat"],
         "lng": post_body["lng"],
+        "sight_see_date_time": datetime.datetime.fromtimestamp(sight_see_timestamp_to_datetime),
         "ohshown_event_type": post_body.get("type"),
         "status_time": datetime.datetime.now(),
         "display_number": num["display_number__max"] + 1,

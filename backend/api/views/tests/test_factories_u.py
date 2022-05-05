@@ -18,6 +18,7 @@ def factory(db):
         lng=121,
         status_time=datetime(2019, 11, 11, 11, 11, 11, tzinfo=timezone.utc),
         display_number=666,
+        sight_see_date_time=datetime(2019, 10, 11, 11, 11, 11),
     )
 
 

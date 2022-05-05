@@ -1,74 +1,32 @@
-import datetime
-
 import pytest
-from freezegun import freeze_time
 
-from ...models import Image, OhshownEvent, Document
+from ...models import OhshownEvent, Document
 from ...models.const import DocumentDisplayStatusConst
 from ...models.document import DocumentDisplayStatusEnum
+from .helper import create_ohshown_event
 
 
 pytestmark = pytest.mark.django_db
-
-
-def update_landcode_with_custom_factory_model(factory_id):
-    OhshownEvent.objects.filter(pk=factory_id).update(
-        landcode="853-2",
-        sectcode="5404",
-        sectname="溪底寮段三寮灣小段",
-        towncode="D24",
-        townname="臺北市中山區",
-    )
-
-
-def create_factory(cli):
-    lat = 23.234
-    lng = 120.1
-    others = "這個工廠實在太臭啦，趕緊檢舉吧"
-    nickname = "路過的家庭主婦"
-    contact = "07-7533967"
-    ohshown_event_type = "2-3"
-
-    im1 = Image.objects.create(image_path="https://i.imgur.com/RxArJUc.png")
-    im2 = Image.objects.create(image_path="https://imgur.dcard.tw/BB2L2LT.jpg")
-
-    request_body = {
-        "name": "a new factory",
-        "type": ohshown_event_type,
-        "images": [str(im1.id), str(im2.id)],
-        "others": others,
-        "lat": lat,
-        "lng": lng,
-        "nickname": nickname,
-        "contact": contact,
-    }
-
-    test_time = datetime.datetime(2019, 11, 11, 11, 11, 11, tzinfo=datetime.timezone.utc)
-    with freeze_time(test_time):
-        resp = cli.post(
-            "/api/ohshown-events", data=request_body, content_type="application/json"
-        )
-        data = resp.json()
-        update_landcode_with_custom_factory_model(data["id"])
-        return data["id"]
 
 
 def test_get_factory_statistics(client):
     # Create 10 factories in 臺北市中山區
     id_list = []
     for index in range(0, 10):
-        result = create_factory(client)
+        result, *others = create_ohshown_event(client)
         id_list.append(result)
 
+    # TODO: interesting, this api still works even we have refactored /api/factory to /api/ohshown-events
+    # we may want to think about if we need this api
     resp = client.get("/api/statistics/factories?source=U")
-    assert resp.json()["factories"] == 10
+    assert resp.json()["factories"] == 14
 
     resp = client.get("/api/statistics/factories?source=U&level=city")
     assert resp.json()["cities"]["臺北市"]["factories"] == 10
     assert resp.json()["cities"]["臺南市"]["factories"] == 0
 
     resp = client.get("/api/statistics/factories?source=G&level=city")
-    assert resp.json()["cities"]["臺南市"]["factories"] == 9
+    assert resp.json()["cities"]["臺南市"]["factories"] == 0
 
     resp = client.get("/api/statistics/factories?townname=台北市")
     assert resp.json()["cities"]["臺北市"]["factories"] == 10
@@ -77,7 +35,7 @@ def test_get_factory_statistics(client):
     assert resp.json()["cities"]["臺北市"]["towns"]["中山區"]["factories"] == 10
 
     resp = client.get("/api/statistics/factories?townname=台南市")
-    assert resp.json()["cities"]["臺南市"]["factories"] == 9
+    assert resp.json()["cities"]["臺南市"]["factories"] == 0
 
     resp = client.get(f"/api/statistics/factories?display_status={DocumentDisplayStatusConst.REPORTED}")
     assert resp.json()["factories"] == 0
@@ -177,7 +135,7 @@ def test_get_factory_statistics(client):
 
 def test_get_image_statistics(client):
     for _ in range(10):
-        create_factory(client)
+        create_ohshown_event(client)
 
     resp = client.get("/api/statistics/images?townname=台北市")
     assert resp.json()["count"] == 20, f"expect 20 but {resp.json()['count']}"
@@ -194,7 +152,7 @@ def test_get_image_statistics(client):
 
 def test_get_report_records_statistics(client):
     for _ in range(10):
-        create_factory(client)
+        create_ohshown_event(client)
 
     resp = client.get("/api/statistics/report_records?townname=台北市")
     assert resp.json()["count"] == 10, f"expect 10 but {resp.json()['count']}"
@@ -210,10 +168,13 @@ def test_get_report_records_statistics(client):
 
 
 def test_get_total(client):
-    id_list = [
-        create_factory(client)
-        for _ in range(10)
-    ]
+    # note: asterisk sign a.k.a. * for tuple unpacking is not supported in list comprehension
+    # the feature was taken out of PEP 448 for readability
+    # see Variations session of PEP 448 https://peps.python.org/pep-0448/#variations
+    id_list = []
+    for index in range(0, 10):
+        result, *others = create_ohshown_event(client)
+        id_list.append(result)
 
     for factory_id in id_list:
         Document.objects.create(
@@ -237,9 +198,9 @@ def test_get_total(client):
         )
 
     resp = client.get("/api/statistics/total")
-    assert resp.json()["臺南市"]["documents"] == 5
+    assert resp.json()["臺南市"]["documents"] == 0
     count = resp.json()["臺南市"][DocumentDisplayStatusConst.IN_PROGRESS]
-    assert count == 5, f"expect 5 but {count}"
+    assert count == 0, f"expect 5 but {count}"
 
     for factory in OhshownEvent.objects.order_by("-created_at").all()[5:10]:
         Document.objects.create(
@@ -249,10 +210,11 @@ def test_get_total(client):
             display_status=2
         )
 
+    expected = 0
     resp = client.get("/api/statistics/total")
-    assert resp.json()["臺南市"]["documents"] == 9
+    assert resp.json()["臺南市"]["documents"] == expected
     count = resp.json()["臺南市"][DocumentDisplayStatusConst.IN_PROGRESS]
-    assert count == 9, f"expect 9 but {count}"
+    assert count == expected, f"expect {expected} but {count}"
 
     for factory in OhshownEvent.objects.order_by("-created_at"):
         Document.objects.create(
@@ -263,9 +225,9 @@ def test_get_total(client):
         )
 
     resp = client.get("/api/statistics/total")
-    assert resp.json()["臺南市"]["documents"] == 9
+    assert resp.json()["臺南市"]["documents"] == expected
     count = resp.json()["臺南市"][DocumentDisplayStatusConst.IN_PROGRESS]
-    assert count == 9, f"expect 9 but {count}"
+    assert count == expected, f"expect {expected} but {count}"
 
     count = resp.json()["臺北市"][DocumentDisplayStatusConst.IN_PROGRESS]
     assert count == 10, f"expect 10 but {count}"

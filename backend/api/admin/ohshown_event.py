@@ -184,13 +184,14 @@ class OhshownEventAdmin(
     list_display = (
         "id",
         "display_number",
-        "updated_at",
-        "reportrecord_latest_created_at",
+        "ohshown_event_type",
+        "sight_see_date_time",
         "lat",
         "lng",
-        "ohshown_event_type",
         "source",
         "name",
+        "updated_at",
+        "reportrecord_latest_created_at",
     )
     search_fields = ["townname", "sectname", "display_number"]
     list_filter = (

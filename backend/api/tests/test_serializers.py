@@ -40,6 +40,7 @@ class TestFactorySerializers:
             landcode="000120324",
             ohshown_event_type="2-1",
             cet_report_status="A",
+            sight_see_date_time=datetime.now(),
             status_time=datetime.now(),
             display_number=666,
         )
@@ -133,6 +134,7 @@ class TestFactorySerializers:
             ohshown_event_type=None,
             before_release=True,
             cet_report_status="A",
+            sight_see_date_time=datetime.now(),
             status_time=datetime.now(),
             display_number=666,
         )
@@ -163,6 +165,7 @@ class TestFactorySerializers:
             before_release=True,
             cet_report_status="A",
             created_at=datetime.now() - timedelta(days=100),
+            sight_see_date_time=datetime.now(),
             status_time=datetime.now(),
             display_number=666,
         )
@@ -189,6 +192,7 @@ class TestFactorySerializers:
                 before_release=True,
                 cet_report_status="A",
                 display_number=666,
+                sight_see_date_time=test_time,
             )
             report_record = ReportRecord.objects.create(
                 factory=factory,
@@ -219,6 +223,7 @@ class TestFactorySerializers:
                 before_release=True,
                 cet_report_status="A",
                 display_number=666,
+                sight_see_date_time=factory_create,
             )
         report_time = datetime.now() - timedelta(days=364)
         with freeze_time(report_time):
@@ -250,6 +255,7 @@ class TestFactorySerializers:
                 before_release=False,
                 cet_report_status="A",
                 display_number=666,
+                sight_see_date_time=factory_create,
             )
         report_time = datetime.now() - timedelta(days=364)
         with freeze_time(report_time):
@@ -281,6 +287,7 @@ class TestFactorySerializers:
                 before_release=False,
                 cet_report_status="A",
                 display_number=666,
+                sight_see_date_time=factory_create,
             )
         report_time = datetime.now() - timedelta(days=364)
         with freeze_time(report_time):
@@ -306,6 +313,7 @@ class TestFactorySerializers:
                 before_release=False,
                 cet_report_status="A",
                 display_number=666,
+                sight_see_date_time=factory_create,
             )
         report_time = datetime.now() - timedelta(days=366)
         with freeze_time(report_time):
