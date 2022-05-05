@@ -104,7 +104,7 @@ def _handle_create_ohshown_events(request):
         "name": post_body["name"],
         "lat": post_body["lat"],
         "lng": post_body["lng"],
-        "sight_see_date_time": post_body["datetime"],
+        "sight_see_date_time": datetime.datetime.fromtimestamp(post_body["datetime"] / 1e3),
         "ohshown_event_type": post_body.get("type"),
         "status_time": datetime.datetime.now(),
         "display_number": num["display_number__max"] + 1,
