@@ -121,7 +121,7 @@ docker-compose -f docker-compose.dev.yml up -d
 
 更詳細的使用方式請看
 
-[Setup with docker-compose](docs/SETUP_COMPOSE.md)
+[Setup with docker-compose](backend/docs/SETUP_COMPOSE.md)
 
 ### 在本機上安裝與設定開發環境
 
@@ -176,7 +176,7 @@ P.S
 
 #### 在本機端上安裝 PostgreSQL + PostGIS
 
-[手動設定 PostgreSQL 與 PostGIS](docs/SETUP_MANUAL.md)
+[手動設定 PostgreSQL 與 PostGIS](backend/docs/SETUP_MANUAL.md)
 
 ## 啟動 django server
 
