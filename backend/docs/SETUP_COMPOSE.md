@@ -81,3 +81,80 @@ docker-compose logs --tail 100 -f web
 docker-compose exec web bash
 
 ```
+
+
+# (Optional) Use IDEs
+
+You may want to use IDEs to boost your productivity. This session collects how we set up our IDEs.
+
+Tips: It will help a lot if you know how to set up your development via command line when you switch between different 
+IDEs. For example, from PyCharm to VS Code, or in the other way around. Make sure you understand each set-up step 
+of your IDE, and try to reproduce it with commands in command line.
+
+## PyCharm
+
+PyCharm support npm and django runners together. This fits our project very much since our project uses vue.js for 
+frontend and django for backend.
+
+### Setting npm debugger for Frontend
+
+- Run --> Edit Configurations --> + (Add New Configuration) --> npm
+- Fill in necessary information required to launch frontend
+  - tip: In "Before launch", add "Open Browser" so PyCharm will open the browser with JavaScript debugger of 
+    PyCharm. This is very handy!
+  - See [this reference](https://www.jetbrains.com/help/pycharm/run-debug-configuration-npm.html) if you need more detailed instructions
+- Use "Run" to launch frontend if you simply want to run the frontend
+- Use "Debug" to launch frontend if you want to use breakpoints to debug interactively.
+
+#### Source Entry Points
+
+Put your breakpoints in the functions you are interested in.
+
+- On creating ohshown event
+  - See `CreateFactorySteps.vue` --> `createComponent` --> `setup()`
+- Select location
+  - See function `chooseLocation` in `CreateFactorySteps.vue` --> `createComponent`
+- On clicking "Next step" of page 3
+  - `CreateFactorySteps.vue` --> `createComponent` --> `setup()`
+- Submit
+  - `index.ts` --> `createFactory`
+
+#### Troubleshooting
+
+- Many feature is only supported by PyCharm Pro
+- Necessary PyCharm plugins
+  - [JavaScript Debugger](https://www.jetbrains.com/help/pycharm/configuring-javascript-debugger.html)
+- Optional PyCharm plugins but may be handy
+  - [Live Edit in Node.js applications](https://www.jetbrains.com/help/pycharm/live-editing-in-node-js-applications.html)
+- Chrome is supported for debugging of JavaScript code with PyCharm Pro. See the details of ["Configuring JavaScript 
+  debugger"](https://www.jetbrains.com/help/pycharm/configuring-javascript-debugger.html)
+
+### Setting Django debugger for Backend
+
+When launching Django, I use docker-compose in this case.
+
+- Run --> Edit Configurations --> + (Add New Configuration) --> Django
+  - Setting docker-compose
+    - You need to tell PyCharm where is your docker daemon
+    - You need to tell PyCharm where is your docker-compose yaml
+    - You need to tell PyCharm which service of docker-compose you want to launch
+      - I launched all services in command line, and then let PyCharm to take care of the following "web service" 
+        up and down.
+- Fill in necessary information required to launch backend
+- Use "Run" to launch process if you simply want to run the process
+- Use "Debug" to launch process if you want to use breakpoints to debug interactively.
+
+#### Source Entry Points
+
+- On submitting ohshown event
+  - see `backend/api/views/factories_cr.py`
+  - `cr` means `crud`. So you will find `factories_u.py` as well.
+  - Refactoring work is waiting for your contribution! Refactoring from `factories_` to `ohshown_events_`.
+- Edit the django admin console
+  - see `ohshown_event.py`
+
+#### Troubleshooting
+
+- Many feature is only supported by PyCharm Pro
+- Setup docker-compose is a bit tricky. The key is to tell PyCharm where if your docker-compose execute and mapping 
+  the path inside/outside the container correctly.
