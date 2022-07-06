@@ -6,3 +6,4 @@ from .review import Review
 from .gov_agency import GovAgency
 from .trace_form import TraceForm
 from .bear import Bear
+from .reporter import Reporter
