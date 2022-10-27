@@ -241,6 +241,8 @@ class OhshownEventAdmin(
             {
                 "classes": (),
                 "fields": (
+                    ("townname", "landcode"),
+                    ("sectname", "sectcode"),
                     ("lng", "lat"),
                     "google_map_link",
                     "ohshown_map_link",
